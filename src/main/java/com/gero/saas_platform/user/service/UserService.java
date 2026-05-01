@@ -4,6 +4,7 @@ import com.gero.saas_platform.auth.dto.LoginRequest;
 import com.gero.saas_platform.auth.dto.LoginResponse;
 import com.gero.saas_platform.user.dto.RegisterRequest;
 import com.gero.saas_platform.user.dto.UserResponse;
+import com.gero.saas_platform.user.model.Role;
 
 public interface UserService {
 
@@ -32,4 +33,16 @@ public interface UserService {
      * @throws RuntimeException if authentication fails due to invalid credentials
      */
     LoginResponse login(LoginRequest request);
+
+    /**
+     * Updates the role of an existing user.
+     * This operation is typically restricted to users with ADMIN privileges
+     * and is used to promote or demote users within the system (e.g. USER → ADMIN or ADMIN → USER)
+     *
+     * @param userId the unique identifier of the user whose role should be updated
+     * @param role the new role to assign to the user (e.g. {@link Role#USER}, {@link Role#ADMIN})
+     *
+     * @throws RuntimeException if no user is found with the given {@code userId}
+     */
+    void updateRole(String userId, Role role);
 }
