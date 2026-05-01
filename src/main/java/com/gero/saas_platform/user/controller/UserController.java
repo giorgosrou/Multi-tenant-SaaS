@@ -6,10 +6,7 @@ import com.gero.saas_platform.user.dto.RegisterRequest;
 import com.gero.saas_platform.user.dto.UserResponse;
 import com.gero.saas_platform.user.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -29,5 +26,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(userService.login(request));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<String> me() {
+        return ResponseEntity.ok("You are authenticated!");
     }
 }
