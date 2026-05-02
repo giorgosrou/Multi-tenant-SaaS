@@ -4,7 +4,6 @@ import com.gero.saas_platform.auth.dto.LoginRequest;
 import com.gero.saas_platform.auth.dto.LoginResponse;
 import com.gero.saas_platform.auth.service.JwtService;
 import com.gero.saas_platform.user.dto.RegisterRequest;
-import com.gero.saas_platform.user.dto.UserResponse;
 import com.gero.saas_platform.user.model.Role;
 import com.gero.saas_platform.user.model.User;
 import com.gero.saas_platform.user.repository.UserRepository;
@@ -25,15 +24,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse register(RegisterRequest request) {
+    public LoginResponse register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
 
         User user = buildUser(request);
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
 
-        return new UserResponse(savedUser.getId(), savedUser.getEmail());
+        String token = jwtService.generateToken(user.getEmail(), user.getRole());
+
+        return new LoginResponse(token);
     }
 
     @Override

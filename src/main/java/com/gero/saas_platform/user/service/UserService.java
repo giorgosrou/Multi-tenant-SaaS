@@ -3,7 +3,6 @@ package com.gero.saas_platform.user.service;
 import com.gero.saas_platform.auth.dto.LoginRequest;
 import com.gero.saas_platform.auth.dto.LoginResponse;
 import com.gero.saas_platform.user.dto.RegisterRequest;
-import com.gero.saas_platform.user.dto.UserResponse;
 import com.gero.saas_platform.user.model.Role;
 
 public interface UserService {
@@ -16,10 +15,10 @@ public interface UserService {
      *     Persists the user in the database
      *
      * @param request the registration request containing user credentials (email and password)
-     * @return a {@link com.gero.saas_platform.user.dto.UserResponse} containing the created user's basic information
+     * @return a {@link com.gero.saas_platform.auth.dto} containing the created user's basic information
      * @throws RuntimeException if authentication if email already exists
      */
-    UserResponse register(RegisterRequest request);
+    LoginResponse register(RegisterRequest request);
 
     /**
      * Authenticates a user and generates a JWT token upon successful login.

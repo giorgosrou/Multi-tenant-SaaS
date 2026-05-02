@@ -3,7 +3,6 @@ package com.gero.saas_platform.user.controller;
 import com.gero.saas_platform.auth.dto.LoginRequest;
 import com.gero.saas_platform.auth.dto.LoginResponse;
 import com.gero.saas_platform.user.dto.RegisterRequest;
-import com.gero.saas_platform.user.dto.UserResponse;
 import com.gero.saas_platform.user.model.Role;
 import com.gero.saas_platform.user.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<LoginResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(userService.register(request));
     }
 
