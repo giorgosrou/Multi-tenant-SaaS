@@ -3,10 +3,13 @@ package com.gero.saas_platform.user.controller;
 import com.gero.saas_platform.auth.dto.LoginRequest;
 import com.gero.saas_platform.auth.dto.LoginResponse;
 import com.gero.saas_platform.user.dto.RegisterRequest;
+import com.gero.saas_platform.user.dto.UserResponse;
 import com.gero.saas_platform.user.model.Role;
+import com.gero.saas_platform.user.model.User;
 import com.gero.saas_platform.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,9 +39,10 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<String> me() {
-        return ResponseEntity.ok("You are authenticated!");
+    @GetMapping("/profile")
+    public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(new UserResponse(user.getId(), user.getEmail()));
     }
 
     @GetMapping("/admin")

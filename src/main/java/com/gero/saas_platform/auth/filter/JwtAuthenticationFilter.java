@@ -53,7 +53,6 @@ public class JwtAuthenticationFilter extends org.springframework.web.filter.Once
             String email = jwtService.extractEmail(token);
 
             if (email == null) return;
-            if (SecurityContextHolder.getContext().getAuthentication() != null) return;
 
             userRepository.findByEmail(email)
                     .ifPresent(user -> setAuthentication(user, request));
@@ -65,7 +64,7 @@ public class JwtAuthenticationFilter extends org.springframework.web.filter.Once
 
     private void setAuthentication(User user, HttpServletRequest request) {
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, null);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, authorities);
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
     }
